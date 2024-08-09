@@ -8,6 +8,7 @@ const render = createRender(() => {
   const [length, setLength] = useModelState("length");
   const [coord, setCoord] = useModelState("coord");
   const [editor, setEditor] = React.useState(null);
+  const [strokePreviouslyActive, setStrokePreviouslyActive] = React.useState(false);
 
   const handleMount = (editorInstance) => {
     setEditor(editorInstance);
@@ -16,7 +17,12 @@ const render = createRender(() => {
   useValue(
     "shapes",
     () => {
-      if (editor?.isIn("draw.drawing")) {
+      const strokeActive = editor?.isIn("draw.drawing");
+
+      if (strokeActive) {
+        setStrokePreviouslyActive(true);
+      } else if (strokePreviouslyActive && !strokeActive) {
+        // Drawing just finished
         let ob = editor.getCurrentPageShapesSorted();
         if (ob.length === 0) return;
         let lastElement = ob[ob.length - 1];
@@ -37,9 +43,11 @@ const render = createRender(() => {
           console.log(transformedPoints);
           setCoord(transformedPoints);
         }
+
+        setStrokePreviouslyActive(false); // Reset the flag
       }
     },
-    [editor]
+    [editor, strokePreviouslyActive]
   );
 
   return (
