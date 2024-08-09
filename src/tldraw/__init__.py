@@ -222,8 +222,8 @@ class ReactiveColorPicker(anywidget.AnyWidget):
 
 class TldrawWidgetCoordinates(anywidget.AnyWidget):
     path_root = pathlib.Path.cwd()
-    _esm = path_root / "src" / "tldraw" / "static" / "get_stroke.js"
-    _css = path_root / "src" / "tldraw" / "static" / "get_stroke.css"
+    _esm = pathlib.Path(__file__).parent / "static" / "get_stroke.js"
+    _css = pathlib.Path(__file__).parent / "static" / "get_stroke.css"
 
     length = Int(100).tag(sync=True)
     coord = List().tag(sync=True)
