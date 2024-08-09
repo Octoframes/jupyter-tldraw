@@ -52,7 +52,7 @@ const render = createRender(() => {
 
   return (
     <>
-      <div
+      {/* <div
         style={{
           position: "relative",
           top: "0px",
@@ -60,7 +60,7 @@ const render = createRender(() => {
         }}
       >
         Length of currently drawn stroke: {length}
-      </div>
+      </div> */}
       <div
         style={{
           position: "relative",

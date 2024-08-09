@@ -3,7 +3,7 @@ import pathlib
 from pathlib import Path
 import base64
 import anywidget
-from traitlets import Unicode, Int, observe, Bool, List, Any
+from traitlets import Unicode, Int, observe, Bool, List, Any,Dict
 
 import io
 from .prompt import sent_request_to_openai
@@ -216,3 +216,22 @@ class ReactiveColorPicker(anywidget.AnyWidget):
     _esm = pathlib.Path(__file__).parent / "static" / "reactive_color_picker.js"
     _css = pathlib.Path(__file__).parent / "static" / "reactive_color_picker.css"
     color = Any([]).tag(sync=True)
+
+
+
+
+class TldrawWidgetCoordinates(anywidget.AnyWidget):
+    path_root = pathlib.Path.cwd()
+    _esm = path_root / "src" / "tldraw" / "static" / "get_stroke.js"
+    _css = path_root / "src" / "tldraw" / "static" / "get_stroke.css"
+
+    length = Int(100).tag(sync=True)
+    coord = List().tag(sync=True)
+
+    width = Int(600).tag(sync=True)
+    height = Int(300).tag(sync=True)
+    value = Int(0).tag(sync=True)
+    points_new = List(List(Any())).tag(sync=True)
+
+    
+
