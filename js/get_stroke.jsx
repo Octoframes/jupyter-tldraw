@@ -1,48 +1,46 @@
 import * as React from "react";
-import { useState } from "react";
 import { createRender, useModelState } from "@anywidget/react";
-
-import { Tldraw } from "@tldraw/tldraw";
+import { Tldraw, useValue } from "@tldraw/tldraw";
 import "@tldraw/tldraw/tldraw.css";
 import "./widget.css";
-
-const handleMount = (editor, setLength, setCoord) => {
-  editor.store.listen(() => {
-    if (editor.isIn("draw.drawing")) {
-      console.log("Drawing");
-
-      let ob = editor.getCurrentPageShapesSorted();
-      if (ob.length === 0) return;
-      let lastElement = ob[ob.length - 1];
-
-      if (
-        lastElement.props.segments &&
-        lastElement.props.segments[0].points
-      ) {
-        setLength(lastElement.props.segments[0].points.length);
-
-        let points = lastElement.props.segments[0].points;
-        let transform = editor.getShapePageTransform(lastElement.id);
-
-        // Create a new array to store transformed points
-        let transformedPoints = [];
-
-        // Apply the transformation to each point and add it to the transformedPoints array
-        points.forEach((point) => {
-          let pageSpacePoint = transform.applyToPoint(point);
-          transformedPoints.push(pageSpacePoint);
-        });
-
-        console.log(transformedPoints);
-        setCoord(transformedPoints);
-      }
-    }
-  });
-};
 
 const render = createRender(() => {
   const [length, setLength] = useModelState("length");
   const [coord, setCoord] = useModelState("coord");
+  const [editor, setEditor] = React.useState(null);
+
+  const handleMount = (editorInstance) => {
+    setEditor(editorInstance);
+  };
+
+  useValue(
+    "shapes",
+    () => {
+      if (editor?.isIn("draw.drawing")) {
+        let ob = editor.getCurrentPageShapesSorted();
+        if (ob.length === 0) return;
+        let lastElement = ob[ob.length - 1];
+
+        if (
+          lastElement.props.segments &&
+          lastElement.props.segments[0].points
+        ) {
+          setLength(lastElement.props.segments[0].points.length);
+
+          let points = lastElement.props.segments[0].points;
+          let transform = editor.getShapePageTransform(lastElement.id);
+
+          let transformedPoints = points.map((point) => {
+            return transform.applyToPoint(point);
+          });
+
+          console.log(transformedPoints);
+          setCoord(transformedPoints);
+        }
+      }
+    },
+    [editor]
+  );
 
   return (
     <>
@@ -62,10 +60,7 @@ const render = createRender(() => {
           height: "500px",
         }}
       >
-        <Tldraw
-          autoFocus={false}
-          onMount={(editor) => handleMount(editor, setLength, setCoord)}
-        />
+        <Tldraw autoFocus={false} onMount={handleMount} />
       </div>
     </>
   );
