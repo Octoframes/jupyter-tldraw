@@ -65,12 +65,12 @@ https://github.com/kolibril13/jupyter-tldraw/blob/main/src/tldraw/prompt.py#L5-L
 
 
 * update npm install @tldraw/tldraw@2.4.3
+* add ReactiveColorPicker
 
-
-* include  "package.json", "node_config.mjs" to pypi, so that conda works as well.
 
 ## 2.2.5
 
+* include  "package.json", "node_config.mjs" to pypi, so that conda works as well.
 * update to tldraw 2.2.5
 * include jsx files on pypi, so that conda can build more easily.
 
