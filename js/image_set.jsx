@@ -5,49 +5,31 @@ import "@tldraw/tldraw/tldraw.css";
 
 const render = createRender(() => {
   const [app, setApp] = React.useState(null);
-  const [imageWidth] = useModelState("image_width");
-  const [imageHeight] = useModelState("image_height");
+  const [imageDimensions] = useModelState("image_dimensions");
   const [base64img] = useModelState("base64img");
-  const [i, seti] = React.useState(1);
-  const [lastImageX, setLastImageX] = React.useState(0); // State to track the X position of the last image
-  const [lastImageY, setLastImageY] = React.useState(0); // State to track the Y position of the last image
 
   const handleMount = React.useCallback((app) => {
     setApp(app);
   }, []);
 
   React.useEffect(() => {
-    if (app && base64img) {
+    if (app && base64img && imageDimensions) {
+      const [imageWidth, imageHeight] = imageDimensions;
       const assetId = AssetRecordType.createId();
-      const placeholderAsset = {
-        id: assetId, typeName: "asset",type: "image",
-        props: {w: imageWidth, h: imageHeight, name: "card-repo.png", isAnimated: false, mimeType: null, src: base64img},
-        meta: {},
-      };
+      const placeholderAsset = { id: assetId, typeName: "asset", type: "image", props: { w: imageWidth, h: imageHeight, name: "card-repo.png", isAnimated: false, mimeType: null, src: base64img }, meta: {} };
 
       app.createAssets([placeholderAsset]);
 
-      let newX = lastImageX;
-      let newY = lastImageY;
+      // Set the position of the image to the top right corner
+      const newX = 900 - imageWidth; // Assuming the container width is 900px
+      const newY = 0; // Top position
 
-      app.createShapes([
-        {
-          type: "image",x: newX, y: newY,
-          props: {w: imageWidth,h: imageHeight,assetId: assetId},
-        },
-      ]);
-
-      if (lastImageX != 0 && i % 3 === 0) {
-        setLastImageY(lastImageY + 200);
-        setLastImageX(0);
-      } else {
-        setLastImageX(newX + 200);
-      }
-      seti(i + 1);
+      app.createShapes([{ type: "image", x: newX, y: newY, props: { w: imageWidth, h: imageHeight, assetId: assetId } }]);
     }
-  }, [base64img, app]);
+  }, [base64img, app, imageDimensions]);
+
   return (
-    <div style={{position: "relative", width: "900px", height: "500px" }}>
+    <div style={{position: "relative", width: "1100px", height: "500px" }}>
       <Tldraw autoFocus={false} onMount={handleMount} showMenu={false} showPages={false} />
     </div>
   );
