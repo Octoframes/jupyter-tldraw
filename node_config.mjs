@@ -15,6 +15,7 @@ esbuild.build({
     "js/minimal.jsx",
     "js/debug.jsx",
     "js/reactive_color_picker.jsx",
+    "image_set.jsx",
 
 
   ],
