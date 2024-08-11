@@ -20,17 +20,8 @@ const render = createRender(() => {
     if (app && base64img) {
       const assetId = AssetRecordType.createId();
       const placeholderAsset = {
-        id: assetId,
-        typeName: "asset",
-        type: "image",
-        props: {
-          w: imageWidth,
-          h: imageHeight,
-          name: "card-repo.png",
-          isAnimated: false,
-          mimeType: null,
-          src: base64img,
-        },
+        id: assetId, typeName: "asset",type: "image",
+        props: {w: imageWidth, h: imageHeight, name: "card-repo.png", isAnimated: false, mimeType: null, src: base64img},
         meta: {},
       };
 
@@ -41,14 +32,8 @@ const render = createRender(() => {
 
       app.createShapes([
         {
-          type: "image",
-          x: newX,
-          y: newY,
-          props: {
-            w: imageWidth,
-            h: imageHeight,
-            assetId: assetId,
-          },
+          type: "image",x: newX, y: newY,
+          props: {w: imageWidth,h: imageHeight,assetId: assetId},
         },
       ]);
 
@@ -62,13 +47,7 @@ const render = createRender(() => {
     }
   }, [base64img, app]);
   return (
-    <div
-      style={{
-        position: "relative",
-        width: "900px",
-        height: "500px",
-      }}
-    >
+    <div style={{position: "relative", width: "900px", height: "500px" }}>
       <Tldraw autoFocus={false} onMount={handleMount} showMenu={false} showPages={false} />
     </div>
   );
