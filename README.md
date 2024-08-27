@@ -59,7 +59,15 @@ https://github.com/kolibril13/jupyter-tldraw/blob/main/src/tldraw/prompt.py#L5-L
 5. `npm run dev`
 
 
+
+
+
 # Changelog
+
+# 2.4.6
+
+update npm install @tldraw/tldraw@2.4.5
+TldrawSetImage implementation
 
 ## 2.4.5
 
