@@ -3,7 +3,7 @@ import pathlib
 from pathlib import Path
 import base64
 import anywidget
-from traitlets import Unicode, Int, observe, Bool, List, Any,Dict
+from traitlets import Unicode, Int, observe, Bool, List, Any,Tuple
 
 import io
 from .prompt import sent_request_to_openai
@@ -235,3 +235,38 @@ class TldrawWidgetCoordinates(anywidget.AnyWidget):
 
     
 
+
+class TldrawSetImage(anywidget.AnyWidget):
+    @staticmethod
+    def base64_to_image_dimensions(base64_img_string):
+        base64_img_string_only = base64_img_string.split(",")[1]
+        decoded_bytes = base64.b64decode(base64_img_string_only)
+        if decoded_bytes[:8] != b"\x89PNG\r\n\x1a\n":
+            raise ValueError("Invalid PNG file")
+        ihdr_start = 8
+        ihdr_end = decoded_bytes.find(b"IHDR") + 4 + 8
+        ihdr_chunk = decoded_bytes[ihdr_start:ihdr_end]
+        image_width = int.from_bytes(ihdr_chunk[8:12], byteorder="big")
+        image_height = int.from_bytes(ihdr_chunk[12:16], byteorder="big")
+        return image_width, image_height
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def set_image(self, base64img):
+        if not base64img:
+            raise ValueError("No image provided")
+
+        image_width, image_height = self.base64_to_image_dimensions(base64img)
+        self.image_dimensions = (int(image_width / 2), int(image_height / 2))
+        self.base64img = base64img
+
+    base64img = Unicode("").tag(sync=True)
+    image_dimensions = Tuple(Int(), Int(), default_value=(0, 0)).tag(sync=True)
+
+
+    length = Int(100).tag(sync=True)
+    coord = List().tag(sync=True)
+
+    _esm = pathlib.Path(__file__).parent / "static" / "image_set.js"
+    _css = pathlib.Path(__file__).parent / "static" / "image_set.css"
