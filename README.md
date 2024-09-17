@@ -64,6 +64,12 @@ https://github.com/kolibril13/jupyter-tldraw/blob/main/src/tldraw/prompt.py#L5-L
 
 # Changelog
 
+# 3.0.0
+
+update npm install @tldraw/tldraw@3.0.0
+
+
+
 # 2.4.6
 
 update npm install @tldraw/tldraw@2.4.5

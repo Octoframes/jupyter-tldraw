@@ -4,6 +4,7 @@ from pathlib import Path
 import base64
 import anywidget
 from traitlets import Unicode, Int, observe, Bool, List, Any,Tuple
+from traitlets import List, Dict, Unicode
 
 import io
 from .prompt import sent_request_to_openai
@@ -234,6 +235,13 @@ class TldrawWidgetCoordinates(anywidget.AnyWidget):
     points_new = List(List(Any())).tag(sync=True)
 
     
+class FlowerPlot(anywidget.AnyWidget):
+    width = Int(600).tag(sync=True)
+    height = Int(300).tag(sync=True)
+    flower_data = List(Dict()).tag(sync=True)
+    _esm = pathlib.Path(__file__).parent / "static" / "flower_plot.js"
+    _css = pathlib.Path(__file__).parent / "static" / "flower_plot.css"
+    value = Int(0).tag(sync=True)
 
 
 class TldrawSetImage(anywidget.AnyWidget):

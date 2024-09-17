@@ -16,7 +16,7 @@ esbuild.build({
     "js/debug.jsx",
     "js/reactive_color_picker.jsx",
     "js/image_set.jsx",
-
+    "js/flower_plot.jsx",
 
   ],
   bundle: true,
