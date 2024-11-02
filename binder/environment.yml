@@ -6,3 +6,5 @@ dependencies:
   - numpy
   - pip
   - polars
+  - pip:
+    - quak
