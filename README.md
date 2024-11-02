@@ -1,5 +1,7 @@
 # Jupyter Tldraw
 [![PyPI version](https://img.shields.io/pypi/v/tldraw.svg)](https://pypi.org/project/tldraw/)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kolibril13/jupyter-tldraw/HEAD)
+
 <img width="946" alt="image" src="https://github.com/kolibril13/jupyter-tldraw/assets/44469195/8ba7e662-1f35-4e3b-b342-6d9fd3079e22">
 
 

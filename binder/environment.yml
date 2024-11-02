@@ -1,0 +1,10 @@
+name: tldraw-demos
+channels:
+  - conda-forge
+dependencies:
+  - matplotlib
+  - numpy
+  - pip
+  - polars
+  - pip:
+    - quak
